@@ -29,7 +29,9 @@ class Board:
                 # write the value of the grid cell on the block
                 if self.grid[row][col]:
                     text = font.render(self.grid[row][col], True, '#EEEEEE')
-                    screen.blit(text, block_rect)
+                    text_rect = text.get_rect()
+                    text_rect.center = block_rect.center
+                    screen.blit(text, text_rect)
 
                 # move pointer to the right for the next column
                 current_horizontal += (self.block_width + self.gap)
