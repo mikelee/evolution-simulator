@@ -1,7 +1,7 @@
 import functools
 import random
-from Board2 import Board
-from Creature2 import Creature
+from Board import Board
+from Creature import Creature
 
 class Environment:
     def __init__(self, size, width, height, creatures) -> None:
