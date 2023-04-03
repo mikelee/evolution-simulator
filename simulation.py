@@ -3,6 +3,8 @@ from sys import exit
 
 pygame.init();
 
+font = pygame.font.SysFont(None, 24)
+
 size = width, height = 1200, 800
 
 screen = pygame.display.set_mode(size)
