@@ -1,4 +1,5 @@
 from Block import Block
+from Creature import Creature
 
 class Board:
     gap = 10
@@ -27,11 +28,22 @@ class Board:
                 screen.blit(block_surf, block_rect)
 
                 # write the value of the grid cell on the block
-                if self.grid[row][col]:
-                    text = font.render(self.grid[row][col], True, '#EEEEEE')
-                    text_rect = text.get_rect()
-                    text_rect.center = block_rect.center
-                    screen.blit(text, text_rect)
+                if len(self.grid[row][col]) > 0:
+                    item = self.grid[row][col][0]
+                    arr = []
+
+                    for item in self.grid[row][col]:
+                        if isinstance(item, Creature):
+                            arr.append(str(item.id))
+                        elif item == 'Food':
+                            arr.append(item)
+                    itemsString = ', '.join(arr)
+
+                    if len(arr):
+                        text = font.render(itemsString, True, '#EEEEEE')
+                        text_rect = text.get_rect()
+                        text_rect.center = block_rect.center
+                        screen.blit(text, text_rect)
 
                 # move pointer to the right for the next column
                 current_horizontal += (self.block_width + self.gap)
@@ -40,4 +52,4 @@ class Board:
 
     def set(self, coordinates, item):
         row, col = coordinates
-        self.grid[row][col] = item
+        self.grid[row][col].append(item)
