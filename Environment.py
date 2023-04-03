@@ -18,7 +18,8 @@ class Environment:
         self.spawnCreatures()
     
     def refresh(self, pygame, screen, font):
-        # update creatures here
+        for creature in self.creatures:
+            creature.update(self)
 
         for i, row in enumerate(self.board.grid):
             for j, col in enumerate(row):
