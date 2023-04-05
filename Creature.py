@@ -60,7 +60,7 @@ class Creature:
 
     def getRanDNA(self):
         return {
-            'lifespan': self.getRanInt(10),
+            'lifespan': self.getRanInt(20),
             'metabolism': self.getRanInt(10),
             'movement': self.getRanInt(10),
             'sight': self.getRanInt(10),
