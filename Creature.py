@@ -88,6 +88,16 @@ class Creature:
         # add creature to enviroment at coordinates
         environment.board.grid[coordinates[0]][coordinates[1]].append(self)
 
+    def reproduce(self, environment):
+        location = environment.getItemLocation(self)
+
+        offspring = Creature(self.dna)
+        environment.board.set(location, offspring)
+        environment.creatures.append(offspring)
+
+        nearEmpty = self.scanNear(environment, location)
+        self.move(environment, nearEmpty)
+
     def scan(self, environment):
         # get current location of creature
         currentRow, currentCol = environment.getItemLocation(self)
@@ -119,6 +129,24 @@ class Creature:
 
         interests.sort(key=lambda interest : interest['totalDistance'])
         return interests
+
+    def scanNear(self, environment, location):
+        currentRow, currentCol = location
+
+        scanDistance = 1
+        start = [currentRow - scanDistance, currentCol - scanDistance]
+        end = [currentRow + scanDistance, currentCol + scanDistance]
+
+        # keep start and end in bounds
+        start[0] = max(start[0], 0)
+        start[1] = max(start[1], 0)
+        end[0] = min(end[0], len(environment.board.grid))
+        end[1] = min(end[1], len(environment.board.grid[0]))
+
+        for scanRow in range(start[0], end[0]):
+            for scanCol in range(start[1], end[1]):
+                if len((scanRow, scanCol) is not location and environment.board.grid[scanRow][scanCol]) == 0:
+                    return (scanRow, scanCol)
 
     def update(self, environment):
         stillYoung = self.increaseAge()
