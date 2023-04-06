@@ -149,6 +149,9 @@ class Creature:
                     return (scanRow, scanCol)
 
     def update(self, environment):
+        if self.age >= 10:
+            self.reproduce(environment)
+
         stillYoung = self.increaseAge()
         hasEnergy = self.checkEnergy()
 
