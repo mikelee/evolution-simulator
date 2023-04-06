@@ -5,7 +5,7 @@ import random
 class Creature:
     id_iter = itertools.count()
 
-    def __init__(self, dna=None) -> None:
+    def __init__(self, dna=None, location=None) -> None:
         if dna:
             self.dna = dna
         else:
@@ -13,6 +13,7 @@ class Creature:
         self.age = 0
         self.energy = self.dna['storage']
         self.id = next(Creature.id_iter)
+        self.location = location
 
     def checkEnergy(self):
         if (self.energy <= 0):
@@ -35,7 +36,7 @@ class Creature:
                 if target['colDistance'] < 0:
                     colChange *= -1
 
-                currentRow, currentCol = environment.getItemLocation(self)
+                currentRow, currentCol = self.location
 
                 newRow = currentRow + rowChange
                 newCol = currentCol + colChange
@@ -47,7 +48,7 @@ class Creature:
 
     def die(self, environment):
         # remove creature from board
-        row, col = environment.getItemLocation(self)
+        row, col = self.location
         environment.board.grid[row][col].remove(self)
 
         # remove creature from creatures list
@@ -80,7 +81,7 @@ class Creature:
 
     def move(self, environment, coordinates):
         # get location
-        currentRow, currentCol = environment.getItemLocation(self)
+        currentRow, currentCol = self.location
 
         # remove creature from its current location in the environment
         environment.board.grid[currentRow][currentCol].remove(self)
@@ -88,19 +89,19 @@ class Creature:
         # add creature to enviroment at coordinates
         environment.board.grid[coordinates[0]][coordinates[1]].append(self)
 
-    def reproduce(self, environment):
-        location = environment.getItemLocation(self)
+        self.location = coordinates
 
-        offspring = Creature(self.dna)
-        environment.board.set(location, offspring)
+    def reproduce(self, environment):
+        offspring = Creature(self.dna, self.location)
+        environment.board.set(self.location, offspring)
         environment.creatures.append(offspring)
 
-        nearEmpty = self.scanNear(environment, location)
+        nearEmpty = self.scanNear(environment, self.location)
         self.move(environment, nearEmpty)
 
     def scan(self, environment):
         # get current location of creature
-        currentRow, currentCol = environment.getItemLocation(self)
+        currentRow, currentCol = self.location
 
         scanDistance = self.dna['sight']
         start = [currentRow - scanDistance, currentCol - scanDistance]
@@ -147,6 +148,9 @@ class Creature:
             for scanCol in range(start[1], end[1]):
                 if len((scanRow, scanCol) is not location and environment.board.grid[scanRow][scanCol]) == 0:
                     return (scanRow, scanCol)
+
+    def setLocation(self, coordinates):
+        self.location = coordinates
 
     def update(self, environment):
         if self.age >= 10:
