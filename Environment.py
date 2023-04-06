@@ -100,6 +100,7 @@ class Environment:
         for creature in self.creatures:
             coordinates = self.getRanEmpty()
             self.board.set(coordinates, creature)
+            creature.setLocation(coordinates)
 
             for i, emptyBlock in enumerate(self.emptyBlocks):
                 if emptyBlock == coordinates:
