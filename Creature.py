@@ -91,8 +91,27 @@ class Creature:
 
         self.location = coordinates
 
+    def replicateDNA(self, dna):
+        mutationChance = .2
+
+        newDNA = {}
+
+        for attribute in dna:
+            ran = random.random()
+
+            if ran <= mutationChance:
+                # mutation happens
+                mutationSeverity = random.randint(1, 4)
+                mutationDirection = 1 if random.random() < .5 else -1
+
+                newDNA[attribute] = dna[attribute] + (mutationSeverity * mutationDirection)
+            else:
+                newDNA[attribute] = dna[attribute]
+        return newDNA
+
     def reproduce(self, environment):
-        offspring = Creature(self.dna, self.location)
+        replicatedDNA = self.replicateDNA(self.dna)
+        offspring = Creature(replicatedDNA, self.location)
         environment.board.set(self.location, offspring)
         environment.creatures.append(offspring)
 
