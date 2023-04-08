@@ -22,12 +22,30 @@ environment.spawnFood()
 environment.spawnFood()
 environment.spawnFood()
 
+play = True
+
 while True:
     for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                play = not play
+
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+    
+    if play:
+        environment.refresh(pygame, screen, font)
+    else:
+        pause_surf = pygame.Surface(size)
+        pause_rect = pause_surf.get_rect()
+        pause_surf.fill('black')
 
-    environment.refresh(pygame, screen, font)
+        pause_text = font.render('Paused', True, '#EEEEEE')
+        pause_text_rect = pause_text.get_rect()
+        pause_text_rect.center = pause_rect.center
+        
+        screen.blit(pause_surf, (0, 0))
+        screen.blit(pause_text, pause_text_rect)
     pygame.display.update()
     clock.tick(.5)
