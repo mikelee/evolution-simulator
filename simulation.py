@@ -37,9 +37,11 @@ while True:
     if play:
         environment.refresh(pygame, screen, font)
     else:
+        environment.draw(pygame, screen, font)
         pause_surf = pygame.Surface(size)
         pause_rect = pause_surf.get_rect()
         pause_surf.fill('black')
+        pause_surf.set_alpha(100)
 
         pause_text = font.render('Paused', True, '#EEEEEE')
         pause_text_rect = pause_text.get_rect()
