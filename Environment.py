@@ -17,6 +17,9 @@ class Environment:
                 self.emptyBlocks.append((i, j))
         self.spawnCreatures()
     
+    def draw(self, pygame, screen, font):
+        self.board.draw(pygame, screen, font)
+
     def refresh(self, pygame, screen, font):
         for creature in self.creatures:
             creature.update(self)
@@ -41,7 +44,7 @@ class Environment:
             self.resolveConflict(conflict)
         self.conflicts.clear()
 
-        self.board.draw(pygame, screen, font)
+        self.draw(pygame, screen, font)
 
     def resolveConflict(self, conflict):
         if len(conflict['creatures']) > 1:
