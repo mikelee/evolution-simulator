@@ -87,12 +87,12 @@ class Environment:
                 except:
                     continue
 
-    def getRanEmpty(self):
+    def getEmptyBlock(self):
         ranCoordinates = random.choice(self.emptyBlocks)
         return ranCoordinates
 
     def spawnFood(self):
-        coordinates = self.getRanEmpty()
+        coordinates = self.getEmptyBlock()
         self.board.set(coordinates, 'Food')
 
         for index, item in enumerate(self.emptyBlocks):
@@ -101,7 +101,7 @@ class Environment:
                 
     def spawnCreatures(self):
         for creature in self.creatures:
-            coordinates = self.getRanEmpty()
+            coordinates = self.getEmptyBlock()
             self.board.set(coordinates, creature)
             creature.setLocation(coordinates)
 
