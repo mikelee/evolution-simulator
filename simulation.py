@@ -8,6 +8,7 @@ pygame.init();
 font = pygame.font.SysFont(None, 24)
 
 size = width, height = 1200, 800
+environment_size = width / 2, height
 
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
@@ -17,7 +18,7 @@ creature2 = Creature()
 creature3 = Creature()
 creatures = [creature1, creature2, creature3]
 
-environment = Environment(size, 5, 5, creatures)
+environment = Environment(environment_size, 5, 5, creatures)
 environment.spawnFood()
 environment.spawnFood()
 environment.spawnFood()
