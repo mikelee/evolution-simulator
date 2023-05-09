@@ -110,13 +110,12 @@ class Creature:
         return newDNA
 
     def reproduce(self, environment):
+        emptyBlock = environment.getEmptyBlock()
+        environment.removeEmptyBlock(emptyBlock)
         replicatedDNA = self.replicateDNA(self.dna)
-        offspring = Creature(replicatedDNA, self.location)
-        environment.board.set(self.location, offspring)
+        offspring = Creature(replicatedDNA, emptyBlock)
+        environment.board.set(emptyBlock, offspring)
         environment.creatures.append(offspring)
-
-        nearEmpty = self.scanNear(environment, self.location)
-        self.move(environment, nearEmpty)
 
     def scan(self, environment):
         # get current location of creature
@@ -150,23 +149,6 @@ class Creature:
         interests.sort(key=lambda interest : interest['totalDistance'])
         return interests
 
-    def scanNear(self, environment, location):
-        currentRow, currentCol = location
-
-        scanDistance = 1
-        start = [currentRow - scanDistance, currentCol - scanDistance]
-        end = [currentRow + scanDistance, currentCol + scanDistance]
-
-        # keep start and end in bounds
-        start[0] = max(start[0], 0)
-        start[1] = max(start[1], 0)
-        end[0] = min(end[0], len(environment.board.grid))
-        end[1] = min(end[1], len(environment.board.grid[0]))
-
-        for scanRow in range(start[0], end[0]):
-            for scanCol in range(start[1], end[1]):
-                if len((scanRow, scanCol) is not location and environment.board.grid[scanRow][scanCol]) == 0:
-                    return (scanRow, scanCol)
 
     def setLocation(self, coordinates):
         self.location = coordinates
