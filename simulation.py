@@ -2,13 +2,16 @@ import pygame
 from sys import exit
 from Creature import Creature
 from Environment import Environment
+from Stats import Stats
 
 pygame.init();
 
 font = pygame.font.SysFont(None, 24)
+font_small = pygame.font.SysFont(None, 16)
 
 size = width, height = 1200, 800
 environment_size = width / 2, height
+stats_size = width - environment_size[0], height
 
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
@@ -22,6 +25,8 @@ environment = Environment(environment_size, 5, 5, creatures)
 environment.spawnFood()
 environment.spawnFood()
 environment.spawnFood()
+
+stats = Stats(stats_size, creatures)
 
 play = True
 
@@ -50,5 +55,8 @@ while True:
         
         screen.blit(pause_surf, (0, 0))
         screen.blit(pause_text, pause_text_rect)
+
+    stats.draw(pygame, screen, font_small)
+
     pygame.display.update()
     clock.tick(.5)
