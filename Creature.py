@@ -99,6 +99,7 @@ class Creature:
             # the block the creature moved to was already occupied
             pass
 
+        self.energy -= 1
         self.location = coordinates
 
     def replicateDNA(self, dna):
@@ -175,3 +176,4 @@ class Creature:
             self.decide(environment)
         else:
             self.die(environment)
+        self.energy -= 1
