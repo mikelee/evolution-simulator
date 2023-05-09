@@ -87,24 +87,25 @@ class Environment:
                 except:
                     continue
 
-    def getEmptyBlock(self):
-        ranCoordinates = random.choice(self.emptyBlocks)
-        return ranCoordinates
-
     def spawnFood(self):
         coordinates = self.getEmptyBlock()
         self.board.set(coordinates, 'Food')
-
-        for index, item in enumerate(self.emptyBlocks):
-            if item == coordinates:
-                del self.emptyBlocks[index]
+        self.removeEmptyBlock(coordinates)
                 
     def spawnCreatures(self):
         for creature in self.creatures:
             coordinates = self.getEmptyBlock()
             self.board.set(coordinates, creature)
             creature.setLocation(coordinates)
+            self.removeEmptyBlock(coordinates)
 
-            for i, emptyBlock in enumerate(self.emptyBlocks):
-                if emptyBlock == coordinates:
-                    del self.emptyBlocks[i]
+    # Empty block methods
+    def getEmptyBlock(self):
+        ranCoordinates = random.choice(self.emptyBlocks)
+        return ranCoordinates
+
+    def addEmptyBlock(self, coordinates):
+        self.emptyBlocks.append(coordinates)
+
+    def removeEmptyBlock(self, coordinates):
+        self.emptyBlocks.remove(coordinates)
