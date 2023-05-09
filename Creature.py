@@ -113,6 +113,10 @@ class Creature:
                 # mutation happens
                 mutationSeverity = random.randint(1, 4)
                 mutationDirection = 1 if random.random() < .5 else -1
+
+                mutationValue = dna[attribute] + (mutationSeverity * mutationDirection)
+
+                newDNA[attribute] = max(mutationValue, 0)
             else:
                 newDNA[attribute] = dna[attribute]
         return newDNA
@@ -156,7 +160,6 @@ class Creature:
 
         interests.sort(key=lambda interest : interest['totalDistance'])
         return interests
-
 
     def setLocation(self, coordinates):
         self.location = coordinates
