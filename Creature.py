@@ -55,6 +55,9 @@ class Creature:
         for i, creature in enumerate(environment.creatures):
             if self.id == creature.id:
                 del environment.creatures[i]
+        # There might still be another creature there that killed this creature
+        if len(environment.board.grid[row][col]) == 0:
+            environment.addEmptyBlock((row, col))
 
     def eat(self, foodEnergy):
         self.energy = min(self.energy + foodEnergy, self.dna['storage'])
@@ -85,9 +88,16 @@ class Creature:
 
         # remove creature from its current location in the environment
         environment.board.grid[currentRow][currentCol].remove(self)
+        if len(environment.board.grid[currentRow][currentCol]) == 0:
+            environment.addEmptyBlock((currentRow, currentCol))
 
         # add creature to enviroment at coordinates
         environment.board.grid[coordinates[0]][coordinates[1]].append(self)
+        try:
+            environment.removeEmptyBlock(coordinates)
+        except:
+            # the block the creature moved to was already occupied
+            pass
 
         self.location = coordinates
 
@@ -103,8 +113,6 @@ class Creature:
                 # mutation happens
                 mutationSeverity = random.randint(1, 4)
                 mutationDirection = 1 if random.random() < .5 else -1
-
-                newDNA[attribute] = dna[attribute] + (mutationSeverity * mutationDirection)
             else:
                 newDNA[attribute] = dna[attribute]
         return newDNA
