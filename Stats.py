@@ -3,12 +3,6 @@ class Stats:
         self.size = size
         self.creatures = creatures
 
-    def refresh(self, pygame, screen, font):
-        self.draw(pygame, screen)
-
-        for creature in self.creatures:
-            self.draw_stats(creature)
-
     def draw(self, pygame, screen, font):
         # draw background
         stats_surf = pygame.Surface(self.size)
