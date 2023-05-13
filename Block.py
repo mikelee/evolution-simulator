@@ -3,7 +3,10 @@ class Block:
         self.width = width
         self.height = height
     
-    def draw(self, pygame):
-        block = pygame.Surface((self.width, self.height))
-        block.fill('#D15466')
-        return block
+    def draw(self, pygame, screen, coordinates):
+        block_surf = pygame.Surface((self.width, self.height))
+        block_surf.fill('#D15466')
+
+        block_rect = block_surf.get_rect(topleft = coordinates)
+        screen.blit(block_surf, block_rect)
+        return block_rect

@@ -23,9 +23,7 @@ class Board:
             for col in range(self.width):
                 # create block
                 block = Block(self.block_width, self.block_height)
-                block_surf = block.draw(pygame)
-                block_rect = block_surf.get_rect(topleft = (current_horizontal, current_vertical))
-                screen.blit(block_surf, block_rect)
+                block_rect = block.draw(pygame, screen, (current_horizontal, current_vertical))
 
                 # write the value of the grid cell on the block
                 if len(self.grid[row][col]) > 0:
